@@ -6,6 +6,7 @@ const DIST_DIR = path.join(__dirname, 'public', 'dist');
 module.exports = {
   mode: 'development',
   target: 'web',
+  devtool: "eval-source-map",
   entry: {
     app: `${SRC_DIR}/index.jsx`
   },
