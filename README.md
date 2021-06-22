@@ -1,1 +1,4 @@
-# react_chat_bot
+# react chat bot
+
+## start app
+> npm start
