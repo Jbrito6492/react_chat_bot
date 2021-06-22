@@ -1,0 +1,14 @@
+service: daddy-site
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: dev
+  region: us-west-2
+
+functions:
+  app:
+    handler: server.index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
