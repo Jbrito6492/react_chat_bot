@@ -4,7 +4,7 @@ const SRC_DIR = path.join(__dirname, 'src');
 const DIST_DIR = path.join(__dirname, 'public', 'dist');
 
 module.exports = {
-  mode: 'dev',
+  mode: 'development',
   target: 'web',
   entry: {
     app: `${SRC_DIR}/index.jsx`
@@ -44,7 +44,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'WhoIsMyDaddy',
       template: `${SRC_DIR}/templates/index.ejs`,
-      favicon: path.join(__dirname, 'public', 'assets', 'favicon.ico')
     }),
   ]
 };

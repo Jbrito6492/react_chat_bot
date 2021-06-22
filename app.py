@@ -1,11 +1,10 @@
 from flask import Flask, request
 from chatterbot import ChatBot
-from chatterbot.trainers import ChaterBotCorpusTrainer
-
+from chatterbot.trainers import ChatterBotCorpusTrainer
 app = Flask(__name__)
 
-raul_bot = ChatBot("Raul", storage_adapter=chatterbot.storage.SQLStorageAdapter)
-trainer = ChaterBotCorpusTrainer(raul_bot)
+raul_bot = ChatBot("Raul", storage_adapter="chatterbot.storage.SQLStorageAdapter")
+trainer = ChatterBotCorpusTrainer(raul_bot)
 trainer.train("chatterbot.corpus.english")
 
 @app.route('/get')
