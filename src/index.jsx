@@ -1,9 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from 'axios';
+import ChatBot from "./components/ChatBox.jsx";
+import "@babel/polyfill";
 
 function App() {
-  return <div>hello world from frontend</div>;
+  return (
+    <div>
+      <ChatBot />
+    </div>
+  );
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

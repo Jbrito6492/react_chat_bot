@@ -21,7 +21,8 @@ def home(path):
 
 @app.route('/get')
 def get_bot_response():
-    user_text = request.args.get('msg')
+    user_text = request.args.get('message')
+    print(user_text)
     return str(raul_bot.get_response(user_text))
 
 
