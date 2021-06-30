@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import changBot from "./changeBot";
+import bot from "./bot";
 export default combineReducers({
-  changBot,
+  bot,
 });

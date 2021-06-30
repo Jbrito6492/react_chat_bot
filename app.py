@@ -7,8 +7,7 @@ app = Flask(__name__, static_folder='public/dist')
 raul_bot = ChatBot(
     "Raul", storage_adapter="chatterbot.storage.SQLStorageAdapter")
 trainer = ChatterBotCorpusTrainer(raul_bot)
-trainer.train("chatterbot.corpus.english")
-
+trainer.train("chatterbot.corpus.english", "chatterbot.corpus.spanish")
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -20,9 +19,8 @@ def home(path):
 
 
 @app.route('/get')
-def get_bot_response():
+def get_bot_response_english():
     user_text = request.args.get('message')
-    print(user_text)
     return str(raul_bot.get_response(user_text))
 
 

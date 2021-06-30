@@ -1,9 +1,14 @@
 import React from "react";
 import Avatar from "./Avatar.jsx";
+import { useDispatch } from "react-redux";
+import { selectEnglish, selectSpanish } from "../../store/actions";
 
 export default function ChatListItems(props) {
+  const dispatch = useDispatch();
   const selectChat = (e) => {
-    console.log(props.name)
+    props.name.split(" ")[1] === "Inglesias"
+      ? dispatch(selectEnglish())
+      : dispatch(selectSpanish());
   };
 
   return (

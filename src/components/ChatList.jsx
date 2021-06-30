@@ -5,8 +5,10 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import InglesiasImage from "../../public/assets/inglesias.png";
 import TableImage from "../../public/assets/table.png";
 import styles from "../../styles/ChatList.css";
+import { useSelector } from "react-redux";
 
 export default function ChatList(props) {
+  const { currentBot } = useSelector((state) => state.bot);
   let allChatUsers = [
     {
       image: InglesiasImage,
@@ -33,14 +35,14 @@ export default function ChatList(props) {
         ask random question
         </div> */}
       <div className={styles.chatlist__heading}>
-        <h2>Chats</h2>
+        <h2>{currentBot === "Raul Inglesias" ? "Chat": "Chingaderas"}</h2>
         <button className={styles["btn-nobg"]}>
           <AiOutlineEllipsis size={20} />
         </button>
       </div>
       <div className={styles.chatList__search}>
         <div className={styles.search_wrap}>
-          <input type="text" placeholder="Search Here" required />
+          <input type="text" placeholder="In Development" required />
           <button className={styles["search-btn"]}>
             <BiSearch size={20} />
           </button>

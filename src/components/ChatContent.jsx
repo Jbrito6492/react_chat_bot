@@ -2,13 +2,13 @@ import React, { useState, createRef } from "react";
 import Avatar from "./Avatar.jsx";
 import ChatItem from "./ChatItem.jsx";
 import { BiCog, BiPlus, BiPaperPlane } from "react-icons/bi";
-import Inglesias from "../../public/assets/inglesias.png";
-import Bot from "../../public/assets/raul_bot.png";
 import User from "../../public/assets/user_default.png";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import styles from "../../styles/ChatContent.css";
 
 export default function ChatContent(props) {
+  const { currentBot, img, thumbnail } = useSelector((state) => state.bot);
   const [state, setState] = useState({
     chatItems: [],
     userMessage: { id: "user", msg: "", image: "" },
@@ -39,7 +39,7 @@ export default function ChatContent(props) {
         chatItems: [
           ...chatItems,
           userMessage,
-          { msg: data, id: "bot", image: Inglesias },
+          { msg: data, id: "bot", image: thumbnail },
         ],
       });
     } catch (e) {
@@ -52,8 +52,8 @@ export default function ChatContent(props) {
       <div className={styles.content__header}>
         <div className={styles.blocks}>
           <div className={styles["current-chatting-user"]}>
-            <Avatar styles={styles} isOnline="active" image={Bot} />
-            <p>Raul Inglesias</p>
+            <Avatar styles={styles} isOnline="active" image={img} />
+            <p>{currentBot}</p>
           </div>
         </div>
 
@@ -75,7 +75,7 @@ export default function ChatContent(props) {
                 key={index}
                 user={itm.id}
                 msg={itm.msg}
-                image={itm.id === "user" ? User : Bot}
+                image={itm.id === "user" ? User : thumbnail}
               />
             );
           })}
@@ -89,7 +89,7 @@ export default function ChatContent(props) {
           </button> */}
           <input
             type="text"
-            placeholder="Type a message here"
+            placeholder={currentBot === "Raul Inglesias" ? "Type a message here" : "Preguntale a tu papa"}
             onChange={onStateChange}
             value={state.userMessage.msg}
           />
