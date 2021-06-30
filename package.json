@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm-run-all --parallel dev:*",
     "dev:build": "webpack --config webpack.config.js --watch",
-    "dev:server": "export FLASK_APP=app.py && export FLASK_ENV=development && flask run -h localhost -p 6969"
+    "dev:server": "export FLASK_APP=app.py && export FLASK_ENV=development && flask run -h localhost -p 6969",
+    "deploy": "git pull && sls deploy --aws-profile development"
   },
   "keywords": [],
   "author": "",
@@ -26,7 +27,10 @@
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "serverless-http": "^2.7.0"
+    "serverless-domain-manager": "^5.1.0",
+    "serverless-http": "^2.7.0",
+    "serverless-python-requirements": "^5.1.1",
+    "serverless-wsgi": "^1.7.8"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
