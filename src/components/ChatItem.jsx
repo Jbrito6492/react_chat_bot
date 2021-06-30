@@ -6,8 +6,8 @@ export default function ChatItem(props) {
     <div
       style={{ animationDelay: `0.8s` }}
       className={`${props.styles.chat__item} ${
-        props.styles[`${props.user ? props.user : ""}`]
-      }}`}
+        props.user === "user" ? "" : props.styles.other
+      }`}
     >
       <div className={props.styles.chat__item__content}>
         <div className={props.styles.chat__msg}>{props.msg}</div>

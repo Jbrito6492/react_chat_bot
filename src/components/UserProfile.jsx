@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlineArrowDown } from "react-icons/ai";
 import styles from "../../styles/UserProfile.css";
 
 export default function UserProfile(props) {
@@ -17,7 +18,7 @@ export default function UserProfile(props) {
         <div className={styles.profile__card}>
           <div className={styles.card__header} onClick={toggleInfo}>
             <h4>Information</h4>
-            <i className="fa fa-angle-down"></i>
+            <AiOutlineArrowDown size={20} />
           </div>
           <div className={styles.card__content}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla

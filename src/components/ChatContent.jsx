@@ -1,93 +1,50 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef } from "react";
 import Avatar from "./Avatar.jsx";
 import ChatItem from "./ChatItem.jsx";
+import { BiCog, BiPlus, BiPaperPlane } from "react-icons/bi";
+import Inglesias from "../../public/assets/inglesias.png";
+import Bot from "../../public/assets/raul_bot.png";
+import User from "../../public/assets/user_default.png";
+import axios from "axios";
 import styles from "../../styles/ChatContent.css";
 
 export default function ChatContent(props) {
-  const messagesEndRef = createRef(null);
-  let chatItems = [
-    {
-      key: 1,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Hi Tim, How are you?",
-    },
-    {
-      key: 2,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I am fine.",
-    },
-    {
-      key: 3,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "What about you?",
-    },
-    {
-      key: 4,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "Awesome these days.",
-    },
-    {
-      key: 5,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "Finally. What's the plan?",
-    },
-    {
-      key: 6,
-      image:
-        "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-      type: "",
-      msg: "what plan mate?",
-    },
-    {
-      key: 7,
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU",
-      type: "other",
-      msg: "I'm taliking about the tutorial",
-    },
-  ];
-
-  const [state, setState] = useState({ chatItems, msg: "" });
-
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", (e) => {
-      if (e.keyCode == 13) {
-        if (state.msg != "") {
-          let item = {
-            key: 1,
-            type: "",
-            msg: state.msg,
-            image:
-              "https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg",
-          };
-          setState({
-            ...state,
-            chatItems: [...chatItms, item],
-            chat: chatItems,
-            msg: "",
-          });
-          scrollToBottom();
-        }
-      }
-    });
+  const [state, setState] = useState({
+    chatItems: [],
+    userMessage: { id: "user", msg: "", image: "" },
   });
 
   const onStateChange = (e) => {
-    setState({ ...state, msg: e.target.value });
+    setState({
+      ...state,
+      userMessage: { ...state.userMessage, msg: e.target.value },
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { userMessage, chatItems } = state;
+    try {
+      setState({
+        ...state,
+        userMessage: { ...state.userMessage, msg: "" },
+        chatItems: [...chatItems, userMessage],
+      });
+      const { data } = await axios.get("/get", {
+        params: { message: userMessage.msg },
+      });
+      setState({
+        ...state,
+        userMessage: { ...state.userMessage, msg: "" },
+        chatItems: [
+          ...chatItems,
+          userMessage,
+          { msg: data, id: "bot", image: Inglesias },
+        ],
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -95,19 +52,15 @@ export default function ChatContent(props) {
       <div className={styles.content__header}>
         <div className={styles.blocks}>
           <div className={styles["current-chatting-user"]}>
-            <Avatar
-              styles={styles}
-              isOnline="active"
-              image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
-            />
-            <p>Tim Hover</p>
+            <Avatar styles={styles} isOnline="active" image={Bot} />
+            <p>Raul Inglesias</p>
           </div>
         </div>
 
         <div className={styles.blocks}>
           <div className={styles.settings}>
             <button className={styles["btn-nobg"]}>
-              <i className="fa fa-cog"></i>
+              <BiCog size={20} />
             </button>
           </div>
         </div>
@@ -119,29 +72,33 @@ export default function ChatContent(props) {
               <ChatItem
                 styles={styles}
                 animationDelay={index + 2}
-                key={itm.key}
-                user={itm.type ? itm.type : "me"}
+                key={index}
+                user={itm.id}
                 msg={itm.msg}
-                image={itm.image}
+                image={itm.id === "user" ? User : Bot}
               />
             );
           })}
-          <div ref={messagesEndRef} />
+          <div />
         </div>
       </div>
       <div className={styles.content__footer}>
         <div className={styles.sendNewMessage}>
-          <button className={styles.addFiles}>
-            <i className="fa fa-plus"></i>
-          </button>
+          {/* <button className={styles.addFiles}>
+            <BiPlus size={20} disabled={true} />
+          </button> */}
           <input
             type="text"
             placeholder="Type a message here"
             onChange={onStateChange}
-            value={state.msg}
+            value={state.userMessage.msg}
           />
-          <button className={styles.btnSendMsg} id="sendMsgBtn">
-            <i className="fa fa-paper-plane"></i>
+          <button
+            className={styles.btnSendMsg}
+            id="sendMsgBtn"
+            onClick={handleSubmit}
+          >
+            <BiPaperPlane size={20} />
           </button>
         </div>
       </div>
